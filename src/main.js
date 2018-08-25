@@ -1,54 +1,40 @@
-/**
- * Created by zzmhot on 2017/3/23.
- *
- * 主程序入口
- *
- * @author: zzmhot
- * @github: https://github.com/zzmhot
- * @email: zzmhot@163.com
- * @Date: 2017/3/23 18:19
- * @Copyright(©) 2017 by zzmhot.
- *
- */
-
-//导入样式
-import 'normalize.css'
-import 'font-awesome/scss/font-awesome.scss'
-import 'element-ui/lib/theme-default/index.css'
-//导入Vue框架
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-//导入element组件
-import ElementUI from 'element-ui'
-//导入组件
-import router from './router'
-//导入状态管理器
-import store from 'store'
-//导入请求框架
-import api from './api'
-//导入自定义插件
-import Plugins from 'plugins'
-//导入主视图文件
 import App from './App'
-//导入mock数据
-import './mock'
+import router from './router'
+import store from './store'
+import iView from 'iview'
+import i18n from '@/locale'
+import config from '@/config'
+import importDirective from '@/directive'
+import 'iview/dist/styles/iview.css'
+import './index.less'
+import '@/assets/icons/iconfont.css'
+// import '@/mock'
+// 实际打包时应该不引入mock
+import env from '../config/env'
+/* eslint-disable */
+env === 'development' ? require('@/mock') : ''
 
-//使用element-ui
-Vue.use(ElementUI)
-
-//使用自定义插件
-Vue.use(Plugins)
-
-//使用api
-Vue.use(api)
-
-//发布后是否显示提示
+Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 Vue.config.productionTip = false
+/**
+ * @description 全局注册应用配置
+ */
+Vue.prototype.$config = config
+/**
+ * 注册指令
+ */
+importDirective(Vue)
 
-//是否开启工具调试
-Vue.config.devtools = process.env.NODE_ENV === 'development'
-
+/* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
+  i18n,
   store,
-  ...App
-}).$mount('mainbody')
+  render: h => h(App)
+})
