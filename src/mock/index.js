@@ -1,17 +1,11 @@
-/**
- * @file: index.
- * @intro: intro.
- * @author: zzmhot.
- * @email: zzmhot@163.com.
- * @Date: 2017/7/24 9:37.
- *
- */
 import Mock from 'mockjs'
+import { login, logout, getUserInfo } from './login'
+import { getTableData } from './data'
 
-import './file'
-import './table'
-import './user'
+// 登录相关和获取用户信息
+Mock.mock(/\/login/, login)
+Mock.mock(/\/get_info/, getUserInfo)
+Mock.mock(/\/logout/, logout)
+Mock.mock(/\/get_table_data/, getTableData)
 
-Mock.setup({
-  timeout: '200-1000'
-})
+export default Mock
