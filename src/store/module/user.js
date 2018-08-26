@@ -36,6 +36,7 @@ export default {
           userName,
           password
         }).then(res => {
+          console.log('handleLogin', res)
           const data = res.data
           commit('setToken', data.token)
           resolve()
