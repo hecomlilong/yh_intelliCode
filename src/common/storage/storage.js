@@ -8,23 +8,22 @@
  *
  */
 
-//存储前缀
-import {storage_prefix} from 'common/config'
+// 存储前缀
+import {STORAGE_PREFIX} from 'common/config'
 
 import {tools_verify, tools_uri} from 'common/tools'
 
 class Storage {
-
-  constructor(type) {
+  constructor (type) {
     if (type === 'local') {
       this.store = window.localStorage
     } else if (type === 'session') {
       this.store = window.sessionStorage
     }
-    this.prefix = storage_prefix
+    this.prefix = STORAGE_PREFIX
   }
 
-  set(key, value) {
+  set (key, value) {
     try {
       value = JSON.stringify(value)
     } catch (e) {
@@ -36,14 +35,12 @@ class Storage {
     return this
   }
 
-  get(key) {
+  get (key) {
     if (!key) {
       throw new Error('没有找到key。')
-      return
     }
     if (typeof key === 'object') {
       throw new Error('key不能是一个对象。')
-      return
     }
     let value = this.store.getItem(tools_uri.encode(this.prefix + key))
 
@@ -59,7 +56,7 @@ class Storage {
     return value
   }
 
-  remove(key) {
+  remove (key) {
     this.store.removeItem(tools_uri.encode(this.prefix + key))
     return this
   }
