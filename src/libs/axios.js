@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import Qs from 'qs'
 import baseURL from '_conf/url'
 import { Message } from 'iview'
 import Cookies from 'js-cookie'
@@ -22,6 +23,7 @@ class httpRequest {
   interceptors (instance, url) {
     // 添加请求拦截器
     instance.interceptors.request.use(config => {
+      config.data = Qs.stringify(config.data)
       if (!config.url.includes('/users')) {
         config.headers['x-access-token'] = Cookies.get(TOKEN_KEY)
       }
@@ -66,7 +68,7 @@ class httpRequest {
       baseURL: baseURL,
       // timeout: 2000,
       headers: {
-        'Content-Type': 'application/json; charset=utf-8',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'X-URL-PATH': location.pathname
       }
     }

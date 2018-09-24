@@ -1,15 +1,13 @@
 import axios from '@/libs/api.request'
-import md5 from 'js-md5'
 
 export const login = ({ userName, password }) => {
-  password = md5(password)
   const data = {
-    userName,
-    password
+    'username': userName,
+    'password': password
   }
-  console.log(data)
+
   return axios.request({
-    url: 'login',
+    url: 'v1/api/login',
     data,
     method: 'post'
   })

@@ -19,7 +19,32 @@ fs.writeFileSync(path.join(__dirname, './config/env.js'), `export default '${env
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? '/iview-admin/'
   : '/'
+const devProxy = ['/v1/api/login'] // 代理
+var proEnv = require('./config/prod.env') // 生产环境
+var uatEnv = require('./config/uat.env') // 测试环境
+var devEnv = require('./config/dev.env') // 本地环境
 
+let target = ''
+// 默认是本地环境
+if (env === 'production') { // 生产环境
+  target = proEnv.hosturl
+} else if (env === 'test') { // 测试环境
+  target = uatEnv.hosturl
+} else { // 本地环境
+  target = devEnv.hosturl
+}
+// 生成代理配置对象
+let proxyObj = {}
+devProxy.forEach((value, index) => {
+  proxyObj[value] = {
+    target: target,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^${value}`]: value
+    }
+  }
+})
+console.log(proxyObj)
 module.exports = {
   // Project deployment base
   // By default we assume your app will be deployed at the root of a domain,
@@ -38,5 +63,16 @@ module.exports = {
       .set('_conf', resolve('config'))
   },
   // 打包时不生成.map文件
-  productionSourceMap: false
+  productionSourceMap: false,
+  devServer: {
+    // open: process.platform === 'darwin',
+    host: '0.0.0.0',
+    port: 8081,
+    https: false,
+    hotOnly: false,
+    disableHostCheck: true,
+    // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
+    proxy: proxyObj, // string | Object
+    before: app => {}
+  }
 }

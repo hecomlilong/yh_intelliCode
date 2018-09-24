@@ -15,7 +15,8 @@ import '@/assets/icons/iconfont.css'
 // 实际打包时应该不引入mock
 import env from '../config/env'
 /* eslint-disable */
-env === 'development' ? require('@/mock') : ''
+// env === 'development' ? require('@/mock') : ''
+env === 'development' ? '' : ''
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
