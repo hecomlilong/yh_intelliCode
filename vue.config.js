@@ -19,7 +19,7 @@ fs.writeFileSync(path.join(__dirname, './config/env.js'), `export default '${env
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? '/iview-admin/'
   : '/'
-const devProxy = ['/v1/api/login'] // 代理
+const devProxy = ['/v1/api/'] // 代理
 var proEnv = require('./config/prod.env') // 生产环境
 var uatEnv = require('./config/uat.env') // 测试环境
 var devEnv = require('./config/dev.env') // 本地环境
@@ -44,7 +44,7 @@ devProxy.forEach((value, index) => {
     }
   }
 })
-console.log(proxyObj)
+
 module.exports = {
   // Project deployment base
   // By default we assume your app will be deployed at the root of a domain,

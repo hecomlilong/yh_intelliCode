@@ -8,8 +8,4 @@
  * @Copyright(©) 2018 by yhll.
  *
  */
-
-//用户登录
-export const login = "/api/post/user/login"
-//用户登出
-export const logout = "/api/post/user/logout"
+export const url = '/v1/api/'

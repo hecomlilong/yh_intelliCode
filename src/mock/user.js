@@ -10,13 +10,13 @@
  */
 
 import Mock from 'mockjs'
-import {port_code, port_user} from 'common/port_uri'
+import {portCode, portUser} from 'common/port_uri'
 
-Mock.mock(new RegExp(port_user.login), ({body}) => {
+Mock.mock(new RegExp(portUser.login), ({body}) => {
   const {username, password} = JSON.parse(body)
   if (username === 'admin' && password === 'admin') {
     return Mock.mock({
-      code: port_code.success,
+      code: portCode.success,
       msg: "登录成功",
       data: {
         'name': '@cname',
@@ -27,13 +27,13 @@ Mock.mock(new RegExp(port_user.login), ({body}) => {
     })
   } else {
     return Mock.mock({
-      code: port_code.error,
+      code: portCode.error,
       msg: "账号或密码错误"
     })
   }
 })
 
-Mock.mock(new RegExp(port_user.logout), {
-  code: port_code.success,
+Mock.mock(new RegExp(portUser.logout), {
+  code: portCode.success,
   msg: "退出成功"
 })

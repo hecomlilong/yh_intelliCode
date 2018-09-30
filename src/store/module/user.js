@@ -1,5 +1,5 @@
-import { login, logout, getUserInfo } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { login, logout, getUserInfo, getCaptcha } from '@/api/user'
+import { setToken, getToken, getSession } from '@/libs/util'
 
 export default {
   state: {
@@ -32,15 +32,19 @@ export default {
     handleLogin ({ commit }, {userName, password}) {
       userName = userName.trim()
       return new Promise((resolve, reject) => {
-        console.log('new Promise((resolve, reject)')
         login({
           userName,
           password
         }).then(res => {
           const data = res.data
-          console.log(res, data)
-          commit('setToken', data.token)
-          resolve()
+          console.log(222)
+          if (data !== '' && data !== undefined) {
+            commit('setToken', data)
+            console.log(444)
+            console.log(getSession())
+            console.log(333)
+          }
+          resolve(res)
         }).catch(err => {
           reject(err)
         })
@@ -67,11 +71,21 @@ export default {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(res => {
           const data = res.data
-          commit('setAvator', data.avator)
-          commit('setUserName', data.user_name)
-          commit('setUserId', data.user_id)
+          // commit('setAvator', data.avator)
+          commit('setUserName', data.account)
+          // commit('setUserId', data.user_id)
           commit('setAccess', data.access)
           resolve(data)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    handleGetCaptcha ({commit}, {userName}) {
+      userName = userName.trim()
+      return new Promise((resolve, reject) => {
+        getCaptcha(userName).then(res => {
+          resolve(res)
         }).catch(err => {
           reject(err)
         })

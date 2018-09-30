@@ -25,7 +25,7 @@
 </template>
 <script type="text/javascript">
   import {mapActions} from 'vuex'
-  import {port_user, port_code} from 'common/port_uri'
+  import {portUser, portCode} from 'common/port_uri'
   import {SET_USER_INFO} from 'store/actions/type'
 
   export default{
@@ -64,7 +64,7 @@
             })
             .catch(({code}) => {
               this.load_data = false
-              if (code === port_code.error) {
+              if (code === portCode.error) {
                 this.$notify.info({
                   title: '温馨提示',
                   message: '账号和密码都为：admin'

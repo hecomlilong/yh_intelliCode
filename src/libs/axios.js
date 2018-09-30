@@ -4,6 +4,7 @@ import baseURL from '_conf/url'
 import { Message } from 'iview'
 import Cookies from 'js-cookie'
 import { TOKEN_KEY } from '@/libs/util'
+
 class httpRequest {
   constructor () {
     this.options = {
@@ -44,17 +45,17 @@ class httpRequest {
           // Spin.hide()
         }, 500)
       }
-      if (data.code !== 200) {
-        // 后端服务在个别情况下回报201，待确认
-        if (data.code === 401) {
-          Cookies.remove(TOKEN_KEY)
-          window.location.href = window.location.pathname + '#/login'
-          Message.error('未登录，或登录失效，请登录')
-        } else {
-          if (data.msg) Message.error(data.msg)
-        }
-        return false
-      }
+      // if (data.code !== 200) {
+      //   // 后端服务在个别情况下回报201，待确认
+      //   if (data.code === 401) {
+      //     Cookies.remove(TOKEN_KEY)
+      //     window.location.href = window.location.pathname + '#/login'
+      //     Message.error('未登录，或登录失效，请登录')
+      //   } else {
+      //     if (data.msg) Message.error(data.msg)
+      //   }
+      //   return false
+      // }
       return data
     }, (error) => {
       Message.error('服务内部错误')
@@ -70,7 +71,8 @@ class httpRequest {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-URL-PATH': location.pathname
-      }
+      },
+      withCredentials: true
     }
     return Axios.create(conf)
   }

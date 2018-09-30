@@ -1,5 +1,5 @@
 import axios from '@/libs/api.request'
-
+import {url} from '@/common/port_uri/base'
 export const login = ({ userName, password }) => {
   const data = {
     'username': userName,
@@ -7,7 +7,7 @@ export const login = ({ userName, password }) => {
   }
 
   return axios.request({
-    url: 'v1/api/login',
+    url: url + 'login',
     data,
     method: 'post'
   })
@@ -15,7 +15,7 @@ export const login = ({ userName, password }) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: 'get_info',
+    url: url + 'getCusInfo',
     params: {
       token
     },
@@ -26,6 +26,17 @@ export const getUserInfo = (token) => {
 export const logout = (token) => {
   return axios.request({
     url: 'logout',
+    method: 'post'
+  })
+}
+
+export const getCaptcha = (userName) => {
+  const data = {
+    'cellphone': userName
+  }
+  return axios.request({
+    url: url + 'getCaptcha',
+    data,
     method: 'post'
   })
 }
